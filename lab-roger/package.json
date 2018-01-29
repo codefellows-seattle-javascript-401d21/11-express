@@ -1,0 +1,14 @@
+{
+  "name": "11-express",
+  "version": "1.0.0",
+  "description": "a basic express server api",
+  "main": "index.js",
+  "directories": {
+    "lib": "lib"
+  },
+  "scripts": {
+    "test": "jest -i"
+  },
+  "author": "rnd",
+  "license": "MIT"
+}
