@@ -9,7 +9,7 @@ const storage = module.exports = {};
 Storage.create = function (schema, item) {
   // if() return Promise.reject();
   let json = JSON.stringify(item);
-  return fs.writeFileProm(`${__dirname}/../data/${schema}/${item._id}.json`, json)
+  return fs.writeFileProm(`${__dirname}/../data/${schema}/${item.id}.json`, json)
     .then(() => item);
   
 };

@@ -3,6 +3,7 @@
 const Note = require('../model/note');
 const storage = require('../lib/storage');
 const bodyParser = require('body-parser');
+const errorHandler = require('../lib/error-handler');
 
 module.exports = function(router) {
   router.post('/note', bodyParser, (req, res) => {
@@ -12,7 +13,7 @@ module.exports = function(router) {
       .catch(err => errorHandler(err, res));
   });
   router.get('/note/:_id', (req, res) => {
-    storage.fetchOne('note', req.params._id)
+    storage.fetchOne('note', req.params.id)
       .then(buffer => buffer.toString())
       .then(json => JSON.parse(json))
       .then(note => res.status(200).json(note))
