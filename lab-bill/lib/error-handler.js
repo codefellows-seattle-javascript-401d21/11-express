@@ -1,6 +1,6 @@
 'use strict';
 
-module.exports - function(err, res) {
+module.exports = function(err, res) {
   let msg = err.message.toLowerCase();
 
   switch(true) {

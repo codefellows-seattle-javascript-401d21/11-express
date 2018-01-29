@@ -11,18 +11,17 @@ storage.create = (schema, item) => {
     .then(()=> item);
 };
 
-storage.fetchOne = (schema, itemId) => {
-  fs.readFileProm(`${__dirname}/../data/${schema}/${itemId}.json`);
-};
+storage.fetchOne = (schema, itemId) => fs.readFileProm(`${__dirname}/../data/${schema}/${itemId}.json`);
 
-storage.fetchAll = (schema) => {
 
-}
+// storage.fetchAll = (schema) => {
 
-storage.update = (schema, itemId, item) => {
+// }
 
-}
+// storage.update = (schema, itemId, item) => {
 
-storage.destroy = (schema, ItemId, item) => {
-    
-}
+// }
+
+// storage.destroy = (schema, ItemId, item) => {
+
+// }
