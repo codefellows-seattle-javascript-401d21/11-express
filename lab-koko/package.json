@@ -1,0 +1,19 @@
+{
+  "name": "lab11",
+  "version": "1.0.0",
+  "description": "notes ",
+  "main": "index.js",
+  "directories": {
+    "lib": "lib"
+  },
+  "scripts": {
+    "test": "jest -i"
+  },
+  "author": "koko",
+  "license": "MIT",
+  "dependencies": {
+    "body-parser": "^1.18.2",
+    "dotenv": "^4.0.0",
+    "uuid": "^3.2.1"
+  }
+}
