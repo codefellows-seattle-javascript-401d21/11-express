@@ -14,14 +14,14 @@ storage.create = (schema, item) => {
 storage.fetchOne = (schema, itemId) => fs.readFileProm(`${__dirname}/../data/${schema}/${itemId}.json`);
 
 
-// storage.fetchAll = (schema) => {
+storage.fetchAll = (schema) => fs.readdirProm(`${__dirname}/../data/${schema}`);
 
-// }
+storage.update = (schema, itemId, item) => {
+  let json = JSON.stringify(item);
+  return fs.readFileProm(`${__dirname}/../data/${schema}/${itemId}.json`)
+    .then(() => {
+      fs.writeFileProm(`${__dirname}/../data/${schema}/${itemId}.json`, json);
+    });
+};
 
-// storage.update = (schema, itemId, item) => {
-
-// }
-
-// storage.destroy = (schema, ItemId, item) => {
-
-// }
+storage.destroy = (schema, itemId) => fs.unlinkProm(`${__dirname}/../data/${schema}/${itemId}.json`);
