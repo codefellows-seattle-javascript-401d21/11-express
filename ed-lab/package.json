@@ -39,6 +39,7 @@
     "uuid": "^3.2.1"
   },
   "devDependencies": {
+    "debug": "^3.1.0",
     "dotenv": "^5.0.0"
   }
 }
