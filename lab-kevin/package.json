@@ -8,7 +8,8 @@
   },
   "scripts": {
     "lint": "eslint .",
-    "test": "jest --verbose -i"
+    "test": "jest --verbose -i",
+    "test:debug": "DEBUG=http* jest --verbose -i"
   },
   "keywords": [
     "express",
@@ -21,6 +22,7 @@
   "license": "MIT",
   "devDependencies": {
     "debug": "^3.1.0",
+    "dotenv": "^5.0.0",
     "eslint": "^4.16.0",
     "jest": "^22.1.4",
     "superagent": "^3.8.2"

@@ -6,21 +6,17 @@ const debug = require('debug')('http:storage-constructor');
 const storage = module.exports = {};
 
 storage.create = function(schema, item){
-  let jsonItem = JSON.parse(jsonItem);
-  fs.write(`${__dirname}../data/note/${schema}/${item}.json`, jsonItem)
-    .then(item => item);
+  debug('item', item);
+  let jsonItem = JSON.stringify(item);
+  return fs.writeFileProm(`${__dirname}/../data/${schema}/${item.id}.json`, jsonItem)
+    .then(() => item);
 };
 
-// storage.fetchOne = function (schema, item_id) {
-//   return new Promise((resolve, reject) => {
-//     if(!schema) return reject(new Error('Cannot get a new item; Schema and id are required'));
-//     if(!item_id) return resolve(this.fetchAll(schema));
-//     if(!memory[schema]) memory[schema] = {};
-//     let item  = memory[schema][item_id] || null;
-//     if(!item) return reject(new Error('Item does not exist get.'));
-//     return resolve(item);
-//   });
-// };
+storage.fetchOne = function (schema, item_id) {
+  debug('read path', `${__dirname}/../data/${schema}/${item_id}.json`);
+  return fs.readFileProm(`${__dirname}/../data/${schema}/${item_id}.json`)
+    .then(data => data.toString());
+};
 
 // storage.update = function (schema, item_id, body) {
 //   return new Promise((resolve, reject) => {

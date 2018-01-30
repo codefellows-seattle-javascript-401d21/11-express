@@ -2,12 +2,13 @@
 
 const express = require('express');
 const errorHandler = require('./error-handler');
-
+const debug = require('debug')('http:server-module');
 
 //app setup
 const app = express();
-const router = express.router();
+const router = express.Router();
 app.use('/api/v1', router);
+debug('server - express');
 
 //router setup
 require('../route/route-note')(router);
@@ -17,10 +18,10 @@ const server = module.exports = {};
 server.isOn = false;
 //server controls
 server.start = (PORT, cb) => {
-  if (!server.isOn) return new Error('Server already running');
+  if (server.isOn) return new Error('Server already running');
   app.listen(PORT, cb);
 };
 server.stop = cb => {
-  if (server.isOn) return new Error('Server not running');
+  if (!server.isOn) return new Error('Server not running');
   app.close(cb);
 };

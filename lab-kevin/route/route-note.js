@@ -8,17 +8,20 @@ const debug = require('debug')('http:route-note');
 
 
 module.exports = function(router) {
-  debug('route envoked');
+  debug('routes');
   
   router.post('/note', bodyParser, (req, res) => {
-    let note = new Note(req.body.subject, req.body.comment);
-    storage.create('note', note)
-      .then(item => {
-        res.status(201).json(JSON.parse(item));
-      })
-      .catch( err =>{
-        errorHandler(err, res);
-      });
+    new Note(req.body.subject, req.body.comment)
+      .then(note => storage.create('note', note))
+      .then(item => res.status(201).json(item))
+      .catch( err => errorHandler(err, res));
+  });
+
+  router.get('/note/:id', bodyParser, (req, res) =>{
+    let note_id = req.params.id;
+    storage.fetchOne('note', note_id)
+      .then(data => res.status(200).json(JSON.parse(data)))
+      .catch( err => errorHandler(err, res));
   });
 
   // router.get('/api/v1/note', (req, res) => {

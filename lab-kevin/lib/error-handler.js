@@ -1,6 +1,10 @@
 'use strict';
 
+const debug = require('debug')('http:error-handling');
+
 module.exports = function(err, res) {
+
+  debug('error: ', err);
 
   let errMsg = `${err.name}: ${err.message}`;
   let msg = errMsg.toLowerCase();
@@ -10,5 +14,5 @@ module.exports = function(err, res) {
   case  msg.includes('ernoent'): return res.status(404).send(errMsg);
   default: return res.status(500).send(errMsg);
   }
-  
+
 };

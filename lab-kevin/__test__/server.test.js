@@ -1,26 +1,30 @@
 'use strict';
 
+const debug = require('debug')('http:server-test');
 const server = require('../lib/server');
 const superagent = require('superagent');
 require('jest');
 
 describe('Server Integration', function() {
-  beforeAll(() => server.start(4000));
+  beforeAll(() => server.start(4000), () => console.log(4000));
   afterAll(() => server.stop());
   
-
   describe('Valid requests', () => {
 
+    beforeAll(()=> {
+      return  superagent.post(':4000/api/v1/note')
+        .send({subject: 'hello', comment: 'Funkn-A'})
+        .then( res => {
+          this.resPost = res;
+        })
+        .catch(err => {
+          debug('superagent error ', err);
+        });
+    });
+
     describe('POST /api/v1/note => create', () => {
-  
-      beforeAll(()=> {
-        return  superagent.post(':4000/api/v1/note')
-          .send({subject: 'hello', comment: 'Funkn-A'})
-          .then( res => {
-            this.resPost = res;
-          });
-      });
       it('should post and create a new record', () => {
+        debug('this.resPost.body', this.resPost.body);
         expect(this.resPost.body.subject).toEqual('hello');
         expect(this.resPost.body.comment).toEqual('Funkn-A');
       });
@@ -32,21 +36,24 @@ describe('Server Integration', function() {
       });
     });
 
-  //   describe('GET /api/v1/note?id=someid => fetchOne', () => {
-  //     beforeAll(() => {
-  //       return superagent.post(':4000/api/v1/note')
-  //         .send({subject: 'hello', comment: 'Funkn-A'})
-  //         .then( res => {
-  //           postOne = res;
-  //         })
-  //         .then( () => {
-  //           return superagent.post(':4000/api/v1/note')
-  //             .send({subject: 'GoodBye', comment: 'Funkn-B'})
-  //             .then( res => {
-  //               postTwo = res;
-  //             });
-  //         });
-  //     });
+    describe('GET /api/v1/note/someid => fetchOne', () => {
+      
+      beforeAll(() => {
+        debug('this.resPost.body.id', this.resPost.body.id);
+        return superagent.get(`:4000/api/v1/note/${this.resPost.body.id}`)
+          .then(res => this.getOne = res);       
+      });
+
+      it('should return json data', () => {
+        debug('this.getOne.body', this.getOne.body);
+        expect(this.getOne.body.id).toEqual(this.resPost.body.id);
+      });
+      it('should return status code 200', () => {
+        expect(this.getOne.status).toEqual(200);
+      });
+    });
+
+  });
 
   //     beforeAll(() => {
   //       return superagent.get(`:4000/api/v1/note?id=${postTwo.body.id}`)
@@ -238,7 +245,7 @@ describe('Server Integration', function() {
 
   //   });
 
-  });
+  //});
 
 });
     
