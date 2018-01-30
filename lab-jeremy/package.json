@@ -1,0 +1,30 @@
+{
+  "name": "lab-11",
+  "version": "1.0.0",
+  "description": "express http lab test ",
+  "main": "index.js",
+  "directories": {
+    "lib": "lib"
+  },
+  "scripts": {
+    "test": "jest -i"
+  },
+  "keywords": [
+    "express",
+    "http",
+    "lab",
+    "test"
+  ],
+  "author": "Jeremy Pearson",
+  "license": "MIT",
+  "devDependencies": {
+    "dotenv": "^4.0.0"
+  },
+  "dependencies": {
+    "bluebird": "^3.5.1",
+    "body-parser": "^1.18.2",
+    "eslint": "^4.16.0",
+    "express": "^4.16.2",
+    "uuid": "^3.2.1"
+  }
+}
