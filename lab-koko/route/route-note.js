@@ -28,16 +28,16 @@ module.exports = function(router) {
       .catch(err => errorHandler(err, res));
   });
  
-  router.put('/note:_id', bodyParser, (req, res) => {
+  router.put('/note/:_id', bodyParser, (req, res) => {
     new Note(req.body.title, req.body.content)
-      .then(note => storage.update('note', note, req.params._id))
-      .then(item => res.status(204).json(item))
+      .then(note => storage.update('note', req.params._id, note))
+      .then(item => res.sendStatus(204).json(item))
       .catch(err => errorHandler(err, res));
   });
 
-  router.delete('/note:_id', (req, res) => {
+  router.delete('/note/:_id', (req, res) => {
     storage.destroy('note', req.params._id)
-      .then(() => res.status(204).end())
+      .then(() => res.sendStatus(204))
       .catch(err => errorHandler(err, res));
   });
 

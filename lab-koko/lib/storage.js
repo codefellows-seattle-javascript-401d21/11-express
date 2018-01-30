@@ -19,10 +19,10 @@ storage.fetchAll = (schema) => fs.readdirProm(`${__dirname}/../data/${schema}`);
 
 storage.update = (schema, itemId, item) => {
   let json = JSON.stringify(item);
-  fs.readFileProm(`${__dirname}/../data/${schema}/${itemId}.json`)
-    .then (() => {
-      return fs.writeFileProm(`${__dirname}/../data/${schema}/${itemId}.json`, json);
-    });
+  fs.readFileProm(`${__dirname}/../data/${schema}/${itemId}.json`);
+  return fs.writeFileProm(`${__dirname}/../data/${schema}/${itemId}.json`, json)
+    .then(() =>  item);
 };
+
 
 storage.destroy = (schema, itemId) => fs.unlinkProm(`${__dirname}/../data/${schema}/${itemId}.json`);
