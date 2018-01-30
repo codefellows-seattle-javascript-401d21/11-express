@@ -15,13 +15,15 @@ storage.create = (schema, item) => {
 storage.fetchOne = (schema, itemId) =>
   fs.readFileProm(`${__dirname}/../data/${schema}/${itemId}.json`)
 
+storage.fetchAll = schema => {
+  return fs.readdirProm(`${__dirname}/../data/${schema}`)
+}
 
 storage.update = (schema, itemId, item) => {
   let json = JSON.stringify(item)
   debug('Successfull stringify of item')
   return fs.writeFileProm(`${__dirname}/../data/${schema}/${item._id}.json`, json)
     .then(() => item)
-
 }
 
 storage.delete = (schema, itemId) => {
