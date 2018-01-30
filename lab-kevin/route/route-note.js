@@ -9,8 +9,11 @@ const debug = require('debug')('http:route-note');
 
 module.exports = function(router) {
   debug('routes');
+  debug('routes2');
+  
   
   router.post('/note', bodyParser, (req, res) => {
+    debug('route post');
     new Note(req.body.subject, req.body.comment)
       .then(note => storage.create('note', note))
       .then(item => res.status(201).json(item))
@@ -18,9 +21,17 @@ module.exports = function(router) {
   });
 
   router.get('/note/:id', bodyParser, (req, res) =>{
+    debug('route fetchone');
     let note_id = req.params.id;
     storage.fetchOne('note', note_id)
       .then(data => res.status(200).json(JSON.parse(data)))
+      .catch( err => errorHandler(err, res));
+  });
+
+  router.get('/note', bodyParser, (req, res) =>{
+    debug('route fetchall');
+    storage.fetchAll('note')
+      .then(data => res.status(200).json(data))
       .catch( err => errorHandler(err, res));
   });
 

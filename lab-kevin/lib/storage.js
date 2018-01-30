@@ -18,6 +18,12 @@ storage.fetchOne = function (schema, item_id) {
     .then(data => data.toString());
 };
 
+storage.fetchAll = function(schema) {
+  debug('fetchall');
+  return fs.readdirProm(`${__dirname}/../data/${schema}`)
+    .then(data => data.map(val => val.split('.')[0]));
+};
+
 // storage.update = function (schema, item_id, body) {
 //   return new Promise((resolve, reject) => {
 //     if(!schema || !item_id || !body) return reject(new Error('Cannot update item; Schema and id are required'));
