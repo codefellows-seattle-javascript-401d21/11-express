@@ -13,13 +13,21 @@ module.exports = function(router) {
     .then(item => res.status(201).json(item))
     .catch(err => errorHandler(err, res))
   })
+
   router.get('/note/:_id', (req, res) => {
     storage.fetchOne('note', req.params._id)
-    .then(buffer => buffer.toString())
-    .then(json => JSON.parse(json))
-    .then(note => res.status(200).json(note))
-    .catch(err => errorHandler(err, res))
-  })
+      .then(buffer => buffer.toString())
+      .then(json => JSON.parse(json))
+      .then(note => res.status(200).json(note))
+      .catch(err => errorHandler(err, res));
+  });
+  router.get('/note', (req, res) => {
+    storage.fetchAll('note')
+      .then(ids => ids.map(id => id.split('.')[0]))
+      .then(note => res.status(200).json(note))
+      .catch(err => errorHandler(err, res));
+  });
+
   router.put('/note/:id', bodyParser, (req, res) => {
     console.log(req.body)
   new Note(req.body.title, req.body.content)

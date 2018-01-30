@@ -2,6 +2,7 @@
 
 const Promise = require('bluebird')
 const fs = Promise.promisifyAll(require('fs'), {suffix: 'Prom'})
+const debug = require('debug')('http:storage');
 
 const storage = module.exports = {}
 
@@ -44,19 +45,17 @@ storage.update = function(schema, id, item) {
 
     fs.writeFileProm(`${__dirname}/../data/${schema}/${id}.json`,json);
   })
-  
-  // .then(() => console.log(item))
-    // return new Promise((resolve, reject) => {
-    //     if(!schema || !item) return reject(new Error('Cannot create a new item; Schema and Item required'))
-    
-    //     if(!memory[schema]) memory[schema] = {}
-    
-    //     memory[schema][item._id] = item
-    //     // debug(`right before return${memory[schema][item._id]}`)
-    //     console.log(`${memory}`)
-    //     return resolve(memory[schema][item._id])
-    //   })
 }
+
+storage.fetchOne = (schema, itemId) => {
+  debug('Fetched a thing');
+  return fs.readFileProm(`${__dirname}/../data/${schema}/${itemId}.json`);
+};
+
+storage.fetchAll = (schema) => {
+  debug('Fetched all things');
+  return fs.readdirProm(`${__dirname}/../data/${schema}`);
+};
 
 storage.destroy = function(schema, id) {
   return fs.unlinkProm(`${__dirname}/../data/${schema}/${id}.json`)
