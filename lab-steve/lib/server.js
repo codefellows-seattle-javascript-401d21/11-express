@@ -11,7 +11,7 @@ const router = express.Router();
 app.use('/api/v1', router);
 
 // Route setup
-require('../route/route-note')(router);
+require('../route/route-quote')(router);
 // Exmple of other models
 // require('../route/route-category')(router);
 app.use('/*', (req, res) => errorHandler(new Error('Path Error. Route not found.'), res));
