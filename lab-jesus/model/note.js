@@ -1,11 +1,14 @@
-'use strict';
+'use strict'
 
-const uuid = require('uuid/v4');
-const debug = require('debug')('http:note-constructor')
+const uuid = require('uuid/v4')
 
-module.exports = function(title, content) {
-    this.title = title;
-    this.content = content;
-    this._id = uuid();
-    debug(`Created a note: ${this}`)
-};
+module.exports = function Note(title, content) {
+  return new Promise((resolve, reject) => {
+    if(!title || !content) return reject(new Error('Validation Error. Cannot create Note. Title and Content required.'))
+    this._id = uuid()
+    this.title = title
+    this.content = content
+
+    return resolve(this)
+  })
+}
