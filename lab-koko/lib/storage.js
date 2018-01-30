@@ -1,31 +1,26 @@
-'use stirct';
+'use strict';
 
-const Promise = require('bluebirs');
-const fs = Promise.promisifyAll(require(fs), {suffix: 'Prom'});
+const Promise = require('bluebird');
+const fs = Promise.promisifyAll(require('fs'), {suffix: 'Prom'});
 
+const debug = require('debug')('http:storage');
 const storage = module.exports = {};
 
-
-Storage.create = function (schema, item) {
-  // if() return Promise.reject();
+storage.create = (schema, item) => {
+  debug('Created a new thing');
   let json = JSON.stringify(item);
-  return fs.writeFileProm(`${__dirname}/../data/${schema}/${item.id}.json`, json)
+  return fs.writeFileProm(`${__dirname}/../data/${schema}/${item._id}.json`, json)
     .then(() => item);
-  
 };
 
-Storage.fetchOne = function (schema, itemID) => 
-  fs.readFileProm(`${__dirname}/../data/${schema}/${itemID}.json`)
+storage.fetchOne = (schema, itemId) =>
+  fs.readFileProm(`${__dirname}/../data/${schema}/${itemId}.json`);
 
+storage.fetchAll = (schema) => 
+  fs.readdirProm(`${__dirname}/../data/${schema}`);
 
-Storage.fetchAll = function (schema) {
-
-
+storage.update = (schema, itemId, item) => {
 };
-Storage.update = function (schema, item, itemID) {
 
-
-};
-Storage.destroy = function (schema, itemID) {
-
+storage.destroy = (schema, itemId) => {
 };

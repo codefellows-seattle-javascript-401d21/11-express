@@ -1,14 +1,11 @@
 'use strict';
 
-module.exports = function (error, res) {
-  let message = error.message.toLowerCase();
+module.exports = function(err, res) {
+  let msg = err.message.toLowerCase();
 
   switch(true) {
-  case message.includes('validation erroror'): 
-    return res.status(400).send(`${error.name}: ${error.message}`);
-  case message.includes('path erroror'): 
-    return res.status(404).send(`${error.name}: ${error.message}`);
-  default: 
-    return res.status(500).send(`${error.name}: ${error.message}`);
+  case msg.includes('validation error'): return res.status(400).send(`${err.name}: ${err.message}`);
+  case msg.includes('enoent'): return res.status(404).send(`${err.name}: ${err.message}`);
+  default: return res.status(500).send(`${err.name}: ${err.message}`);
   }
 };
