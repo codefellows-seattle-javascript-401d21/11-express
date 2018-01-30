@@ -21,12 +21,12 @@ module.exports = function(router) {
       .catch(err => errorHandler(err, res));
   });
   //router.get()
-  router.put('/note', (req, res) => {
-    Note(req.body.title, req.body.content) //this is where reuquireing bodyparser comes to play
-    .then(note => storage.create('note', note))
-    //    .then(json => JSON.parse(json)) //parse it
+  router.put('/note/:_id', bodyParser, (req, res) => { //update
+   new Note(req.body.title, req.body.content) //updateing body content
+    .then(note => storage.update('note', note, req.params._id))
+    //.then(json => JSON.parse(json)) //parse it. not sure if i need this or not
     //im not sure if this is what i want above based on the assignment clue 
-    .then(item => res.status(201).json(item))
+    .then(item => res.status(204).json(item))
     .catch(err => errorHandler(err, res)) //thjis is where requiring error handler file kicks in
   })
   router.delete('/note/:_id', (req, res) => {

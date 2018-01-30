@@ -19,12 +19,17 @@ storage.create = function(schema, item) {
 storage.fetchOne = (schema, itemId) => fs.readFileProm(`${__dirname}/../data/${schema}/${itemId}.json`)//stringify quiried data
 
 storage.fetchAll = (schema) =>
-  fs.readFileProm(`${__dirname}/../data/${schema}.json`)//stringify quiried data
+  fs.readDirProm(`${__dirname}/../data/${schema}`)//fetch all data
 
-storage.update = (schema, itemId, item) =>
-  fs.readFileProm(`${__dirname}/../data/${schema}/${itemId}.json`)//stringify quiried data
+storage.update = (schema, itemId, item) => {
 
-  storage.destroy = (itemId) => fs.unlinkProm(`${__dirname}/../note/${itemId}.json`)
+  fs.readFileProm(`${__dirname}/../data/${schema}/${itemId}.json`) //stringify schema memory and item id query
+  .then(() => {
+    return fs.writeFileProm(`${__dirname}/../data/${schema}/${itemId}.json`) //stringify schema memory and item id query
+  })
+}
+
+storage.destroy = (itemId) => fs.unlinkProm(`${__dirname}/../note/${itemId}.json`)
 
 
 //testing for POST. Paste this into new window wghen nodemon is running : http POST http://localhost:3000/api/v1/note title=new-shit content=fuego
