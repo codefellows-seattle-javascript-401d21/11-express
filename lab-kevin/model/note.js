@@ -3,12 +3,12 @@
 const uuid = require('uuid/v4');
 const debug = require('debug')('http:note-constructor');
 
-module.exports = function(tittle, content) {
+module.exports = function(subject, comment) {
   return new Promise( (resolve, reject) =>{
-    if (!title || !content) return reject(new Error('Validation error: Cannot create note, title or content missing'));
-    this.title = title;
-    this.content = content;
-    this._id = uuid();
+    if (!subject || !comment) return reject(new Error('Validation error: Cannot create note, title or content missing'));
+    this.subject = subject;
+    this.comment = comment;
+    this.id = uuid();
     debug(`#Note: ${this}`);
     return resolve(this);
   });
