@@ -44,7 +44,7 @@ module.exports = function(router) {
   router.delete('/note/:id', bodyParser, (req, res) => {
     debug('delete req', req.params.id);
     debug('delete req.body', req.body);
-    storage.destroy('note', req.params.id)
+    storage.whack('note', req.params.id)
       .then(() => res.status(204).end())
       .catch( err => errorHandler(err, res));
   });

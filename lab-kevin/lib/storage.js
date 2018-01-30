@@ -39,7 +39,7 @@ storage.update = function (schema, item_id, body) {
     });
 };
 
-storage.destroy = function(schema, item_id) {
+storage.whack = function(schema, item_id) {
   debug('delete schema', schema, 'item_id', item_id);
   debug('delete path', `${__dirname}/../data/${schema}/${item_id}.json`);
   return fs.unlinkProm(`${__dirname}/../data/${schema}/${item_id}.json`);
@@ -47,33 +47,3 @@ storage.destroy = function(schema, item_id) {
 
 
 
-// storage.update = function (schema, item_id, body) {
-//   return new Promise((resolve, reject) => {
-//     if(!schema || !item_id || !body) return reject(new Error('Cannot update item; Schema and id are required'));
-//     if(!memory[schema]) memory[schema] = {};
-//     let item  = memory[schema][item_id] || null;
-//     if(!item) item = body;
-//     let {subject, comment} = body;
-//     item.subject = subject;
-//     item.comment = comment;
-//     memory[schema][item_id] = item;
-//     return resolve(item);
-//   });
-// };
-
-// storage.delete = function (schema, item_id) {
-//   return new Promise((resolve, reject) => {
-//     if (!schema || !item_id) return reject(new Error('Cannot get a new item; Schema and id are required'));
-//     if (!memory[schema]) return resolve(item);
-//     if (!memory[schema][item_id]) return reject(new Error('Item does not exist get.'));
-//     delete memory[schema][item_id];
-//     return resolve();
-//   });
-// };
-
-// storage.fetchAll = function (schema) {
-//   if (!schema) return new Error('Cannot get a new item; Schema and id are required');
-//   if (!memory[schema]) return new Error('Item does not exist get.');
-//   let allItems = Object.keys(memory[schema]);
-//   return Object.keys(allItems[0]).length ? allItems : new Error('Item does not exist get.');
-// };
