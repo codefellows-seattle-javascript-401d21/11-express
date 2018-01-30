@@ -41,10 +41,14 @@ module.exports = function(router) {
         return note;
       })
       .then(note => storage.update('note', note._id, note))
-      .then(note => res.status(204).send(note))
+      .then(note => res.status(204).json(note))
       .catch(err => errorHandler(err, res));
   });
 
   // Delete a note
-  // router.delete();
+  router.delete('/note/:_id', (req, res) => {
+    storage.destroy('note', req.params._id)
+      .then(itemId => res.status(204).send(itemId))
+      .catch(err => errorHandler(err, res));
+  });
 };
