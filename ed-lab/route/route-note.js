@@ -21,4 +21,11 @@ module.exports = function(router) {
       .then(note => res.status(200).json(note))
       .catch(err => errorHandler(err, res))
   })
+  
+  router.put('/note/:id', bodyParser, (req, res) => {
+    new Note(req.body.title, req.body.content)
+      .then(note => storage.update('note', req.params.id, note))
+      .then(item => res.status(204).json(item))
+      .catch(err => errorHandler(err, res))
+  })
 }
