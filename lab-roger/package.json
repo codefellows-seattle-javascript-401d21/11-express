@@ -6,9 +6,30 @@
   "directories": {
     "lib": "lib"
   },
-  "scripts": {
-    "test": "jest -i"
-  },
+
+    "scripts": {
+      "test": "jest -i",
+      "test:debug": "DEBUG=http* jest -i",
+      "start:watch": "nodemon index.js",
+      "start:debug": "DEBUG=http* nodemon index.js"
+    },
+    "jest": {
+      "setupFiles": [
+        "./__test__/lib/jest-setup.js"
+      ],
+      "verbose": true,
+      "testEnvironment": "node",
+      "collectCoverage": true,
+      "coverageDirectory": "./coverage",
+      "coverageThreshold": {
+        "global": {
+          "branches": 80,
+          "functions": 80,
+          "lines": 80,
+          "statements": 80
+        }
+      }
+    },
   "author": "rnd",
   "license": "MIT"
 }
