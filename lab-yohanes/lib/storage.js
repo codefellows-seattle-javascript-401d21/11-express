@@ -6,30 +6,26 @@ const fs = Promise.promisifyAll(require('fs'), {suffix: 'Prom'})
 const storage = module.exports = {}
 
 storage.create = function(schema, item) {
-  if (!schema) return new Error('Validation error. Cannot create record. Schema required.') //if no schema, return error message
-  if (!item) return new Error('Validation error. Cannot create record. Item required.') //if no item, return error message
 
   let json = JSON.stringify(item) //stringify item
-  return fs.writeFileProm(`${__dirname}/../data${schema}/{item._id}.json`, json) //stringify schema memory and item id query
-  .then(() => json) //TRY .then(() => item)
+  return fs.writeFileProm(`${__dirname}/../data/${schema}/{item._id}.json`, json) //stringify schema memory and item id query
+  .then(() => item) //TRY .then(() => item)
   .catch(err => {
     console.error('Error occured in #storage.create', err)
     return err
   })
 }
 
-storage.fetchOne = function(schema, itemId) { //error first format before reading and stringifying  schema and itemId
-  if(!schema) return new Error('Validation error. Cannot get record. Schema required')
-  if(!itemId) return new Error('Validation Error. Cannot get record. Item ID required.')
+storage.fetchOne = (schema, itemId) => fs.readFileProm(`${__dirname}/../data/${schema}/${itemId}.json`)//stringify quiried data
+
+storage.fetchAll = (schema) =>
+  fs.readFileProm(`${__dirname}/../data/${schema}.json`)//stringify quiried data
+
+storage.update = (schema, itemId, item) =>
   fs.readFileProm(`${__dirname}/../data/${schema}/${itemId}.json`)//stringify quiried data
-}
 
-storage.fetchAll = function(schema) {
-  if(!schema) return new Error('Validation Error. Cannot get reocrods. Schema required.')
-}
+  storage.destroy = (itemId) => fs.unlinkProm(`${__dirname}/../note/${itemId}.json`)
 
-storage.update = function(schema, itemId, item) {
-  if(!schema) return new Eror('Validation Error. Cannot update record. Schema required')
-  if(!itemId) return new Error('Validation Error. Cannot upodate record. ItemId required')
-  if(!item) return new Error('Validation Error. Cannot update record. Item required')
-}
+
+//testing for POST. Paste this into new window wghen nodemon is running : http POST http://localhost:3000/api/v1/note title=new-shit content=fuego
+//testing for GET. http POST http://localhost:3000/api/v1/note/(PASTE IN ID NUMER HERE)

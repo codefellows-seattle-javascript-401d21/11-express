@@ -13,14 +13,24 @@ module.exports = function(router) {
     .then(item => res.status(201).json(item))
     .catch(err => errorHandler(err, res)) //thjis is where requiring error handler file kicks in
   })
-  router.get('/note/:_id', (req, res) => { //creating pathway
-    storage.fetchOne('note', req.params._id) //request paramaters by Id i think
-    .then(buffer => buffer.toString()) //stringify the data
-    .then(json => JSON.parse(json)) //parse it
-    .then(note => res.status(200).json(note)) //stringify note
-    .catch(err => errorHandler(err, res)) //error handler
-  })
+  router.get('/note/:_id', (req, res) => {
+    storage.fetchOne('note', req.params._id)
+      .then(buffer => buffer.toString())
+      .then(schema => JSON.parse(schema))
+      .then(note => res.status(200).json(note))
+      .catch(err => errorHandler(err, res));
+  });
   //router.get()
-  //router.put()
-  //router.delete()
+  router.put('/note', (req, res) => {
+    Note(req.body.title, req.body.content) //this is where reuquireing bodyparser comes to play
+    .then(note => storage.create('note', note))
+    //    .then(json => JSON.parse(json)) //parse it
+    //im not sure if this is what i want above based on the assignment clue 
+    .then(item => res.status(201).json(item))
+    .catch(err => errorHandler(err, res)) //thjis is where requiring error handler file kicks in
+  })
+  router.delete('/note/:_id', (req, res) => {
+    storage.destroy('note', req.params._id) //request paramaters by Id i think
+    .then(item => res.status(204).json(item))
+  })
 }
