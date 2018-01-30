@@ -8,6 +8,6 @@ module.exports = function Note (title, content) {
     this._id = uuid();
     this.title = title;
     this.content = content;
-    return resolve(this);
+    return resolve(this);  // O(1) Normal Operation (Best Case)
   });
 };

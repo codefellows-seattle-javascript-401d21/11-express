@@ -10,7 +10,7 @@ module.exports = function (router) {
   
   router.post('/note', bodyParser, (req, res) => {
     debug('Begin Post');
-    new Note(req.body.title, req.body.content)
+    new Note(req.body.title, req.body.content)   // O(1) Normal Operation (Best Case)
       .then(note => storage.create('Note', note))
       .then(item => res.status(201).json(item))
       .catch(err => errorHandler(err, res));
@@ -19,7 +19,7 @@ module.exports = function (router) {
 
   router.get('/note/:_id', (req, res) => {
     debug('Begin Get One');
-    storage.fetchOne('Note', req.params._id)
+    storage.fetchOne('Note', req.params._id)   // O(1) Normal Operation (Best Case)
       .then(buffer => buffer.toString())
       .then(json => JSON.parse(json))
       .then(note => res.status(200).json(note))
@@ -29,14 +29,14 @@ module.exports = function (router) {
   
   router.get('/note', (req, res) => {
     debug('Begin Get All');
-    storage.fetch('Note')
+    storage.fetch('Note')   // O(n) Normal Operation (Best Case)
       .then(files => res.status(200).json(files))
       .catch(err => errorHandler(err, res));
   });
  
   router.put('/note/:_id', bodyParser, (req, res) => {    
     debug('Begin Put');
-    new Note(req.body.title, req.body.content)
+    new Note(req.body.title, req.body.content)   // O(1) Normal Operation (Best Case)
       .then(item => {
         item._id = req.body._id;
         return item;
@@ -48,7 +48,7 @@ module.exports = function (router) {
 
   router.delete('/note/:_id', (req, res) => {
     debug('Begin Delete');
-    storage.destroy('Note', req.params._id)
+    storage.destroy('Note', req.params._id)   // O(1) Normal Operation (Best Case)
       .then(() => res.status(204).send())
       .catch(err => errorHandler(err, res));
 
