@@ -23,12 +23,17 @@ module.exports = function(router) {
             .catch(err => errorHandler(err, response));
     });
 
-    router.get('/note', (request, response) => {
+    router.get('/', (request, response) => {
         debug('#router.get fetchAll');
         storage.fetchAll('note')
-            .then(buffer => buffer.toString())
-            .then(json => JSON.parse(json))
-            .then(note => response.status(200).json(note))
+            .then(paths => {
+                console.log('paths', paths);
+                return paths.map(p => p.split('.')[0]);
+            })
+            .then(ids => {
+                console.log('ids', ids);
+                response.status(200).json(ids);
+            })
             .catch(err => errorHandler(err, response));
     });
 
@@ -47,7 +52,7 @@ module.exports = function(router) {
     router.delete('/note:_id', (request, response) => {
         debug('#router.delete Delete');
         storage.delete('note', request.params._id)
-            .then(() => response.status(204).send())
+            .then(() => response.sendStatus(204))
             .catch(err => errorHandler(err, response));
     });
 };

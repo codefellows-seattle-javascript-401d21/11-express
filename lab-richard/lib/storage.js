@@ -5,40 +5,23 @@ const fs = Promise.promisifyAll(require('fs'), {suffix: 'Prom'});
 const debug = require('debug')('http:storage');
 
 const storage = module.exports = {};
-
-storage.create = function(schema, item) {
-    debug('#storage.create Create');
-    let json = JSON.stringify(item);
-    return fs.writeFileProm(`${__dirname}/../data/${schema}/${item._id}.json`, json)
-        .then(() => item);
-};
-
-storage.fetchOne = (schema, itemId) => {
-    debug('#storage.fetchOne Just one');
-    return fs.readFileProm(`${__dirname}/../data/${schema}/${itemId}.json`);
-};
-
-storage.fetchAll = (schema) => {
-    debug('#storage.fetchAll ALL');
-    return fs.readFileProm(`${__dirname}/../data/${schema}.json`)
-        .then(dir => dir.map(file => file.split('.')[0]));
-};
-
-storage.update = (schema, itemId, item) => {
-    debug('#storage.update Update');
-    if(item._id !== itemId) return Promise.reject(new Error('Validation Error: Cannot update file with unmatched ID'));
-    let json = JSON.stringify(item);
-    return fs.writeFileProm(`${__dirname}/../data/${schema}/${itemId}.json`, json)
-        .then(() => item);
-};
-
-storage.delete = (schema, itemId) => {
-    debug('#storage.delete Seek and Destroy');
-    return fs.unlinkProm(`${__dirname}/../data/${schema}/${itemId}.json`);
-};
+const basePath = `${__dirname}/../data`;
 
 
+let writer = (schema, path, itemId, json) => fs.writeFileProm(`${basePath}/${schema}/${itemId}.json`, json);
+let reader = (schema, path, itemId) => fs.readFileProm(`${basePath}/${schema}/${itemId}.json`);
 
+storage.create = (schema, item) => writer(schema, item._id, item);
+debug('#storage.create Create');
 
+storage.fetchOne = (schema, itemId) => reader(`${basePath}/${schema}/${itemId}.json`);
+debug('#storage.fetchOne Just one');
 
+storage.fetchAll = (schema) => fs.readdirProm(`${basePath}/${schema}`);
+debug('#storage.fetchAll ALL');
 
+storage.update = (schema, itemId, item) => fs.writer(`${basePath}/${schema}/${itemId}.json`, item);
+debug('#storage.update Update');
+
+storage.delete = (schema, itemId) => fs.unlinkProm(`${basePath}/${schema}/${itemId}.json`);
+debug('#storage.delete Seek and Destroy');

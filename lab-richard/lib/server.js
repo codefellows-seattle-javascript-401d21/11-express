@@ -6,12 +6,12 @@ const errorHandler = require('./error-handler');
 
 //Application setup
 const app = express();
-const router = express.Router();
+const router_notes = express.Router();
 
 //Route setup
-require('../route/route-note')(router);
+require('../route/route-note')(router_notes);
 //require('../route/route-category')(router)
-app.use('/*', (request, response) => errorHandler(new Error('Path Error. Route not found.'), response));
+app.use('/{0,}', (request, response) => errorHandler(new Error('Path Error. Route not found.'), response));
 
 //Server controls
 const server = module.exports = {};
