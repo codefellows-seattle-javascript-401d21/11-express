@@ -1,8 +1,8 @@
-## EXPRESS
+## EXPRESS - Book storage
 
-### `/api/v1`
+### `/api/v1/book`
 
-##### `POST /note` request
+##### `POST /` request
 
 <Valid input>
   * pass data as stringified JSON in the body of a **POST** request to create a new note
@@ -11,11 +11,11 @@
 <Invalid input>
   * If no schema and/or no title and/or no content is/are sent, it rejects and throws an error with a 400 status
 
-##### `GET /note || /note/:_id` request
+##### `GET / || /:_id` request
 
 ###### -- 1) fetch one specified by id
 <Valid input>
-  * pass `?id=<uuid>` as a query string parameter to retrieve a specific resource (as JSON)
+  * pass `<uuid>` as a query string parameter to retrieve a specific resource (as JSON)
   * this should return a 200 status code with the requested record
 
 <Invalid input>
@@ -31,21 +31,21 @@
   * If no schema is sent, it rejects and throws an error with a status 400
   * If no schema exists, it rejects and throws an error with a status 404
 
-##### `PUT /note/:_id` request
+##### `PUT /:_id` request
 
 <Valid input>
-  * pass `?id=<uuid>` as a query string parameter, with a body of data to update a specific resource (as JSON)
+  * pass `<uuid>` as a query string parameter, with a body of data to update a specific resource (as JSON)
   * this should return a 204 status code with no content in the body
 
 <Invalid input>
   * If no schema and/or no id is/are sent, it rejects and throws an error with a status 400
   * If no item exists, it rejects and throws an error with a status 404
 
-##### `DELETE /note/:_id` request
+##### `DELETE /:_id` request
 
 ###### -- 1) delete one specified by id
 <Valid input>
-  * pass `?id=<uuid>` in the query string to **DELETE** a specific resource
+  * pass `<uuid>` in the query string to **DELETE** a specific resource
   * this should return a 204 status code with no content in the body
 
 <Invalid input>
