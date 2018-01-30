@@ -9,7 +9,7 @@ To start, the user must run the command `node run start:watch`, and then access 
 ### METHODS:
 
 #### CREATE
-Creates a new note using the title and content passed by the user through query strings.
+Creates a new note using the name and content passed by the user through query strings.
 
 #### UPDATE
 Changes the data in an existing note, using data passed through the user with query strings.

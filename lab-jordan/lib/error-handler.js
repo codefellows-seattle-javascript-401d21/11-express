@@ -1,7 +1,7 @@
 'use strict';
 
 module.exports = function (err, res) {
-  let msg = error.message.toLowerCase();
+  let msg = err.message.toLowerCase();
 
   switch (true) {
     case msg.includes('validation error'): return res.status(400).send(`${err.name}: ${err.message}`);

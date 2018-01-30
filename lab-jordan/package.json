@@ -13,8 +13,9 @@
     "uuid": "^3.2.1"
   },
   "devDependencies": {
-    "jest": "^22.1.4",
-    "dotenv": "^5.0.0"
+    "debug": "^3.1.0",
+    "dotenv": "^5.0.0",
+    "jest": "^22.1.4"
   },
   "scripts": {
     "test": "jest -i",
