@@ -3,7 +3,7 @@
 // App dependencies
 const express = require('express');
 const errorHandler = require('./error-handler');
-const debug = require('debug')('http:debug');
+const debug = require('debug')('http:server');
 
 
 // App setup
