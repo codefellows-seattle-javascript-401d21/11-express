@@ -25,6 +25,7 @@ storage.fetchAll = function(schema) {
 };
 
 storage.update = function (schema, item_id, body) {
+
   return fs.readFileProm(`${__dirname}/../data/${schema}/${item_id}.json`)
     .then(data =>{
       let item = JSON.parse(data.toString());
@@ -37,6 +38,14 @@ storage.update = function (schema, item_id, body) {
       return fs.writeFileProm(`${__dirname}/../data/${schema}/${item_id}.json`, item);
     });
 };
+
+storage.destroy = function(schema, item_id) {
+  debug('delete schema', schema, 'item_id', item_id);
+  debug('delete path', `${__dirname}/../data/${schema}/${item_id}.json`);
+  return fs.unlinkProm(`${__dirname}/../data/${schema}/${item_id}.json`);
+};
+
+
 
 // storage.update = function (schema, item_id, body) {
 //   return new Promise((resolve, reject) => {
