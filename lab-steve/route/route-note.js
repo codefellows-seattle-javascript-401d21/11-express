@@ -10,7 +10,7 @@ module.exports = function(router) {
   router.post('/note', bodyParser, (req, res) => {
     new Note(req.body.title, req.body.content)
       .then(note => storage.create('note', note))
-      .then(item => res.status(201).json(item))
+      .then(note => res.status(201).json(note))
       .catch(err => errorHandler(err, res));
   });
 
@@ -34,7 +34,16 @@ module.exports = function(router) {
   });
 
   // Update a note
-  // router.put();
+  router.put('/note/:_id', bodyParser, (req, res) => {
+    new Note(req.body.title, req.body.content)
+      .then(note => {
+        note._id = req.params._id;
+        return note;
+      })
+      .then(note => storage.update('note', note._id, note))
+      .then(note => res.status(204).send(note))
+      .catch(err => errorHandler(err, res));
+  });
 
   // Delete a note
   // router.delete();
