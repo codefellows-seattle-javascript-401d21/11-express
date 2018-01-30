@@ -21,7 +21,7 @@ server.start = function(port, callback) {
 };
 
 server.stop = function(callback) {
-  if(!server.isOn) return callback(new Error('Server not running. You\'re dumb. Don\'t do that.'));
+  if(!server.isOn) return callback(new Error('Server not running.'));
   server.isOn = false;
   return app.close(callback);
 };
