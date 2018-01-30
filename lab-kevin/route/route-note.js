@@ -11,7 +11,6 @@ module.exports = function(router) {
   debug('routes');
   debug('routes2');
   
-  
   router.post('/note', bodyParser, (req, res) => {
     debug('route post');
     new Note(req.body.subject, req.body.comment)
@@ -32,6 +31,13 @@ module.exports = function(router) {
     debug('route fetchall');
     storage.fetchAll('note')
       .then(data => res.status(200).json(data))
+      .catch( err => errorHandler(err, res));
+  });
+
+  router.put('/note/:id', bodyParser, (req, res) =>{
+    debug('route update');
+    storage.update('note',req.body, req.params.id)
+      .then(() => res.status(204).end())
       .catch( err => errorHandler(err, res));
   });
 

@@ -36,39 +36,63 @@ describe('Server Integration', function() {
       });
     });
 
-    // describe('GET /api/v1/note/someid => fetchOne', () => {
+    describe('GET /api/v1/note/someid => fetchOne', () => {
       
-    //   beforeAll(() => {
-    //     debug('this.resPost.body.id', this.resPost.body.id);
-    //     return superagent.get(`:4000/api/v1/note/${this.resPost.body.id}`)
-    //       .then(res => this.getOne = res);       
-    //   });
+      beforeAll(() => {
+        debug('this.resPost.body.id', this.resPost.body.id);
+        return superagent.get(`:4000/api/v1/note/${this.resPost.body.id}`)
+          .then(res => this.getOne = res);       
+      });
 
-    //   it('should return json data', () => {
-    //     debug('this.getOne.body', this.getOne.body);
-    //     expect(this.getOne.body.id).toEqual(this.resPost.body.id);
-    //   });
-    //   it('should return status code 200', () => {
-    //     expect(this.getOne.status).toEqual(200);
-    //   });
-    // });
+      it('should return json data', () => {
+        debug('this.getOne.body', this.getOne.body);
+        expect(this.getOne.body.id).toEqual(this.resPost.body.id);
+      });
+      it('should return status code 200', () => {
+        expect(this.getOne.status).toEqual(200);
+      });
+    });
 
-    // describe('GET /api/v1/note => fetchAll', () => {
+    describe('GET /api/v1/note => fetchAll', () => {
       
-    //   // beforeAll(() => {
-    //   //   return superagent.get(':4000/api/v1/note')
-    //   //     .then(res => this.getAll = res);       
-    //   // });
+      beforeAll(() => {
+        return superagent.get(':4000/api/v1/note')
+          .then(res => this.getAll = res);       
+      });
 
-    //   // it('should return json data', () => {
-    //   //  // debug('this.getAll.body', this.getAll.body);
-    //   //  // debug('this.getAll.text', this.getAll.text);
-    //   //   expect(this.getAll.body).not.toEqual(this.resPost.body);
-    //   // });
-    //   it('should return status code 200', () => {
-    //     expect(this.getAll.status).toEqual(200);
-    //   });
-    // });
+      it('should return json data', () => {
+        debug('this.getAll.body', this.getAll.body);
+        debug('this.getAll.text', this.getAll.text);
+        expect(JSON.parse(this.getAll.text)).toEqual(expect.arrayContaining([this.resPost.body.id]));
+      });
+      it('should return status code 200', () => {
+        expect(this.getAll.status).toEqual(200);
+      });
+    });
+
+    describe('PUT /api/v1/note => update', () => {
+      
+      beforeAll(() => {
+        return superagent.put(`:4000/api/v1/note/${this.resPost.body.id}`)
+          .send({subject: 'goodbye', comment: 'Funkn-B'})
+          .then(res => this.getAll = res);       
+      });
+      beforeAll(() => {
+        debug('this.resPost.body.id', this.resPost.body.id);
+        return superagent.get(`:4000/api/v1/note/${this.resPost.body.id}`)
+          .then(res => this.getOne = res);       
+      });
+
+
+
+      it('should return json data', () => {
+        debug('this.getAll.body', this.getAll.body);
+        expect(JSON.parse(this.getAll.text)).toEqual(expect.arrayContaining([this.resPost.body.id]));
+      });
+      it('should return status code 200', () => {
+        expect(this.getAll.status).toEqual(200);
+      });
+    });
 
   });
 
