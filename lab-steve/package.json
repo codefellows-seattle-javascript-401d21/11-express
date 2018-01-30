@@ -1,0 +1,33 @@
+{
+  "name": "single-resource-express-api",
+  "version": "1.0.0",
+  "description": "11: Single Resource Express API",
+  "main": "index.js",
+  "directories": {
+    "lib": "lib"
+  },
+  "scripts": {
+    "test": "jest --verbose",
+    "lint": "eslint ."
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/stevegcarpenter/11-express.git"
+  },
+  "author": "Steve Carpenter",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/stevegcarpenter/11-express/issues"
+  },
+  "homepage": "https://github.com/stevegcarpenter/11-express#readme",
+  "dependencies": {
+    "bluebird": "^3.5.1",
+    "body-parser": "^1.18.2",
+    "express": "^4.16.2",
+    "nodemon": "^1.14.11",
+    "uuid": "^3.2.1"
+  },
+  "devDependencies": {
+    "dotenv": "^5.0.0"
+  }
+}
