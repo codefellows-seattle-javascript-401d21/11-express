@@ -1,0 +1,23 @@
+{
+  "name": "lab-rima",
+  "version": "1.0.0",
+  "description": "This is an assignment for cf-401.",
+  "main": "index.js",
+  "dependencies": {
+    "bluebird": "^3.5.1",
+    "body-parser": "^1.18.2",
+    "eslint": "^4.16.0",
+    "express": "^4.16.2",
+    "jest": "^22.1.4",
+    "uuid": "^3.2.1"
+  },
+  "devDependencies": {
+    "dotenv": "^4.0.0"
+  },
+  "scripts": {
+    "test": "jest -i"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
