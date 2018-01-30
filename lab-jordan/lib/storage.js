@@ -15,32 +15,23 @@ storage.create = (schema, item) => {
 }
 
 storage.fetchOne = (schema, itemId) => {
-  debug('fetched a thing');
+  debug('Fetched a thing');
   return fs.readFileProm(`${__dirname}/../data/${schema}/${itemId}.json`);
-}
+};
 
 storage.fetchAll = (schema) => {
-  debug('fetched things');
-  return fs.readdirProm(`${__dirname}/../data/${schema}`)
-  .then(data => data.map(id => id.split('.')[0]))
-}
+  debug('Fetched all things');
+  return fs.readdirProm(`${__dirname}/../data/${schema}`);
+};
 
 storage.update = (schema, itemId, item) => {
-  debug('updated a thing');
-  return fs.readFileProm(`${__dirname}/../data/${schema}/${item._id}.json`)
-  .then(data => data.toString())
-    .then(json => JSON.parse(json))
-    .then(oldData => {
-      return {
-        name: item.name || oldData.name,
-        data: item.data || oldData.data,
-        _id: oldData._id,
-      }
-    })
-    .then(JSON.stringify)
-    .then(json => fs.writeFileProm(`${__dirname}/../data/${schema}/${item._id}.json`, json))
-}
+  let json = JSON.stringify(item);
+  return fs.readFileProm(`${__dirname}/../data/${schema}/${itemId}.json`)
+    .then(() => {
+      fs.writeFileProm(`${__dirname}/../data/${schema}/${itemId}.json`, json);
+    });
+};
 
 storage.destroy = (schema, itemId) => {
-  debug('destroyed a thing');
-}
+  return fs.unlinkProm(`${__dirname}/../data/${schema}/${itemId}.json`);
+};
