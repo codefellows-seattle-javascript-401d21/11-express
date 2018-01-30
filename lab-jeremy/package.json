@@ -18,7 +18,9 @@
   "author": "Jeremy Pearson",
   "license": "MIT",
   "devDependencies": {
-    "dotenv": "^4.0.0"
+    "debug": "^3.1.0",
+    "dotenv": "^4.0.0",
+    "superagent": "^3.8.2"
   },
   "dependencies": {
     "bluebird": "^3.5.1",
