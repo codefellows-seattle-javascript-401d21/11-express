@@ -48,7 +48,7 @@ module.exports = function(router) {
   // Delete a note
   router.delete('/note/:_id', (req, res) => {
     storage.destroy('note', req.params._id)
-      .then(itemId => res.status(204).send(itemId))
+      .then(() => res.status(204).send())
       .catch(err => errorHandler(err, res));
   });
 };
