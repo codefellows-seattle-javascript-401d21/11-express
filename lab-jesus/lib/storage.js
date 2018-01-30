@@ -19,6 +19,10 @@ storage.fetchAll = (schema) => {
 }
 
 storage.update = (schema, itemId, item) => {
+  console.log('storage: ',item)
+  let json = JSON.stringify(item)
+  return fs.writeFileProm(`${__dirname}/../data/${schema}/${item._id}.json`, json)
+  .then(() => item)
 }
 
 storage.destroy = (schema, itemId) => {
@@ -32,9 +36,14 @@ storage.fetchAll = function(schema) {
     //   })
 }
 
-storage.update = function(schema, item) {
+storage.update = function(schema, id, item) {
   console.log(schema,item)
-  fs.writeFileProm(`${__dirname}/../data/${schema}/${item._id}.json`, json);
+  let json = JSON.stringify(item)
+  return fs.readFileProm(`${__dirname}/../data/${schema}/${id}.json`)
+  .then( () => {
+
+    fs.writeFileProm(`${__dirname}/../data/${schema}/${id}.json`,json);
+  })
   
   // .then(() => console.log(item))
     // return new Promise((resolve, reject) => {
@@ -49,15 +58,6 @@ storage.update = function(schema, item) {
     //   })
 }
 
-storage.delete = function(schema, id) {
+storage.destroy = function(schema, id) {
   return fs.unlinkProm(`${__dirname}/../data/${schema}/${id}.json`)
-    // return new Promise((resolve, reject) => {
-    //     // if(!schema || !item) return reject(new Error('Cannot create a new item; Schema and Item required'))
-    //     delete memory[schema][id];
-    //     // debug(`right before return${memory[schema][item._id]}`)
-
-    //     return resolve(memory)
-    //   })
-
-
 }
