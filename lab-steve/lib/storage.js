@@ -12,12 +12,13 @@ storage.create = (schema, item) => {
     .then(() => item);
 };
 
+// Read the file for the _id in a Buffer
 storage.fetchOne = (schema, itemId) =>
   fs.readFileProm(`${__dirname}/../data/${schema}/${itemId}.json`);
 
-storage.fetchAll = (schema) => {
-  fs.readdirProm(`${__dirname}/../data/${schema}`)
-};
+// Read the schema directory for a list of filenames returned as a Buffer
+storage.fetchAll = (schema) =>
+  fs.readdirProm(`${__dirname}/../data/${schema}`);
 
 storage.update = (schema, itemId, item) => {
 };
