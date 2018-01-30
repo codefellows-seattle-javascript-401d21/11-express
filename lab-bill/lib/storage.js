@@ -1,11 +1,13 @@
 'use strict';
 
+const debug = require('debug')('http:storage');
 const Promise = require('bluebird');
 const fs = Promise.promisifyAll(require('fs'), {suffix: 'Prom'});
 
 const storage = module.exports = {};
 
 storage.create = (schema, item) => {
+  debug('storage.create');
   let json = JSON.stringify(item);
   return fs.writeFileProm(`${__dirname}/../data/${schema}/${item._id}.json`, json)
     .then(()=> item);

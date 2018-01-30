@@ -2,12 +2,12 @@
 
 const uuid = require('uuid/v4');
 
-module.exports = function Note(title, content) {
+module.exports = function Note(name, data) {
   return new Promise((resolve, reject) => {
-    if(!title || !content) return reject(new Error('Cannot create Note. Title and content required'));
+    if(!name || !data) return reject(new Error('Cannot create Note. name and data required'));
     this._id = uuid();
-    this.title = title;
-    this.content = content;
+    this.name = name;
+    this.data = data;
 
     return resolve(this);
   });
