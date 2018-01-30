@@ -25,6 +25,7 @@ storage.fetchAll = (schema) => {
 };
 
 storage.update = (schema, itemId, item) => {
+  debug('Updated a thing');
   let json = JSON.stringify(item);
   return fs.readFileProm(`${__dirname}/../data/${schema}/${itemId}.json`)
     .then(() => {
@@ -33,5 +34,6 @@ storage.update = (schema, itemId, item) => {
 };
 
 storage.destroy = (schema, itemId) => {
+  debug('Destroyed a thing');
   return fs.unlinkProm(`${__dirname}/../data/${schema}/${itemId}.json`);
 };
