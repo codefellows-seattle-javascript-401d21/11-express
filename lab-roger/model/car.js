@@ -1,5 +1,6 @@
 'use strict';
 const uuid = require('uuid/v4');
+const debug = require('debug')('http:car.js');
 
 module.exports = function(make, model, color) {
 
@@ -9,6 +10,7 @@ module.exports = function(make, model, color) {
     this.make = make;
     this.model = model;
     this.color = color;
+    debug('new Car', this);
     return resolve (this);
   });
 
