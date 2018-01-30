@@ -24,7 +24,14 @@ module.exports = function(router) {
   });
 
   // Get all the notes
-  // router.get('/note');
+  router.get('/note', (req, res) => {
+    storage.fetchAll('note')
+      .then(buffer => buffer.toString())
+      .then(str => str.split(','))
+      .then(arr => arr.map(e => e.split('.')[0]))
+      .then(notes => res.status(200).json(notes))
+      .catch(err => errorHandler(err, res));
+  });
 
   // Update a note
   // router.put();
