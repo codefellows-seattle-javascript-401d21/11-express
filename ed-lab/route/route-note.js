@@ -21,6 +21,13 @@ module.exports = function(router) {
       .then(note => res.status(200).json(note))
       .catch(err => errorHandler(err, res))
   })
+
+  router.get('/note', (req, res) => {
+    storage.fetchAll('note')
+      .then(item => item.map(id => id.split('.')[0]))
+      .then(note => res.status(200).json(note))
+      .catch(err => errorHandler(err, res))
+  })
   
   router.put('/note/:id', bodyParser, (req, res) => {
     new Note(req.body.title, req.body.content)
@@ -34,5 +41,4 @@ module.exports = function(router) {
       .then(item => res.status(204).json(item))
       .catch(err => errorHandler(err, res))
   })
-  
 }
