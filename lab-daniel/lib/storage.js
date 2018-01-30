@@ -37,12 +37,5 @@ storage.update = (schema, id, item) => {
 
 
 storage.destroy = (schema, id) => {
-  fs.unlinkProm(`${__dirname}/../data/${schema}/${id}.json`);
+  return fs.unlinkProm(`${__dirname}/../data/${schema}/${id}.json`);
 };
-
-
-
-
-
-
-
