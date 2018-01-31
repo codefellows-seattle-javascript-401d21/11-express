@@ -13,6 +13,15 @@ open postman and test, get, put, delete, and post methods.
 if your host was 3000:
 
 
+Integration tests have been added!
+
+tests for get put post and delete with success and failures
+
+Unit Test -
+
+Tests the instance of note
+
+
 for POST
 http://localhost:3000/api/v1/note
 with a json body of {"title": "hello", "content":"content of content"}
