@@ -17,7 +17,6 @@ storage.fetchAll = (schema) => {
   return fs.readdirProm(`${__dirname}/../data/${schema}`)
   .then((files) => {
     files.forEach(function(filename){
-      console.log(filename);
       let x = fs.readFileSync(`${__dirname}/../data/${schema}/${filename}`);
       filesArr.push(JSON.parse(x));
     })
@@ -33,9 +32,18 @@ storage.create = (schema, item) => {
 
 storage.update = (schema, itemId, newData) => {
   let itemJson = JSON.stringify(newData);
-  return fs.writeFileProm(`${__dirname}/../data/${schema}/${itemId}.json`, newData);
+  return fs.writeFileProm(`${__dirname}/../data/${schema}/${itemId}.json`, itemJson);
 };
 
 storage.deleteOne = (schema, itemId) => {
   return fs.unlinkProm(`${__dirname}/../data/${schema}/${itemId}.json`);
+};
+
+storage.deleteAll = (schema) => {
+  return fs.readdirProm(`${__dirname}/../data/${schema}`)
+  .then((files) => {
+    files.forEach(function(filename){
+      let x = fs.unlinkProm(`${__dirname}/../data/${schema}/${filename}`);
+    })
+  })
 };

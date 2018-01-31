@@ -39,6 +39,12 @@ module.exports = function(router){
   router.delete('/book/:_id', bodyParser, (req, res) => {
     storage.deleteOne('book', req.params._id)
       .then(() => res.status(200).end())
+      .catch(err => {console.log(err.message); errorHandler(err, res)});
+  });
+
+  router.delete('/book', (req, res) => {
+    storage.deleteAll('book')
+      .then(() => res.status(200).end())
       .catch(err => errorHandler(err, res));
   });
 };

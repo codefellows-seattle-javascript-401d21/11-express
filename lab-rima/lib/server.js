@@ -2,17 +2,18 @@
 
 // Application dependencies
 const express = require('express');
+const cors = require('cors');
 const errorHandler = require('./error-handler');
 
 
 // Applicaiton setup
 const app = express();
 const router = express.Router();
-require('../route/route-book')(router);
 app.use('/api/v1', router);
-
+app.use(cors());
 
 // Route setup
+require('../route/route-book')(router);
 app.use(/*'/*'*/'/{0,}', (req, res) => {
   errorHandler(new Error('Path Error. Route not found.'), res);
 });
@@ -21,6 +22,7 @@ app.use(/*'/*'*/'/{0,}', (req, res) => {
 // Server controls
 const server = module.exports = {};
 server.isOn = false;
+server.http = null;
 
 
 server.start = function(port, callback){
@@ -28,14 +30,13 @@ server.start = function(port, callback){
     return callback(new Error('Server running.'));
   }
   server.isOn = true;
-  return app.listen(port, callback);
+  server.http = app.listen(port, callback);
 };
 
-server.stop = function(callback){
+server.stop = function(){
   if(!server.isOn){
     return callback(new Error('Server not running.'));
   }
   server.isOn = false;
-  // callback needed?
-  return app.close(callback);
+  server.http.close();
 };
