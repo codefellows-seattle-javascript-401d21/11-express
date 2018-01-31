@@ -17,7 +17,7 @@ app.use('/{0}', (req, res) => errorHandler(new Error('Path error. Route not foun
 
 const server = module.exports = {};
 server.isOn = false;
-server.http = null
+server.http = null;
 
 server.start = function(port, callback) {
   if(server.isOn) return callback(new Error('Server is runnning cannot start a running server'));
