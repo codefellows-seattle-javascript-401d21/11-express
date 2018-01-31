@@ -3,33 +3,18 @@
 const Promise = require('bluebird');
 const fs = Promise.promisifyAll(require('fs'), {suffix: 'Prom'});
 const storage = module.exports = {};
+const basePath = `${__dirname}/../data`;
 
-storage.create = (schema, item) => {
-    let json = JSON.stringify(item);
-    return fs.writeFileProm(`${__dirname}/../data/${schema}/${item._id}.json`, json)
-        .then(() => item);
-};
+let writer = (schema, id, json) => fs.writeFileProm(`${basePath}/${schema}/${id}.json`, json);
 
-storage.fetchOne = (schema, itemId) => fs.readFileProm(`${__dirname}/../data/${schema}/${itemId}.json`);
+let reader = (schema, id) => fs.readFileProm(`${basePath}/${schema}/${id}.json`);
 
-storage.fetchAll = schema => {
-    let files = [];
-    fs.readdir(`${__dirname}/../data/${schema}/`, (err, fileNames) => {
-        if (err) console.error(err);
-        fileNames.forEach(file => {
-            fs.readFileProm(`${__dirname}/../data/${schema}/${file}`)
-                .then(file => files.push(file));
-        });
-    })
-        .then(() => files);
-};
+storage.create = (schema, id, item) => writer(schema, id, item);
 
-storage.update = (schema, itemId, item) => {
-    let json = JSON.stringify(item);
-    return fs.readFileProm(`${__dirname}/../data/${schema}/${itemId}.json`, json)
-        .then(() => fs.writeFileProm(`${__dirname}/../data/${schema}/${itemId}.json`, json));
-};
+storage.fetchOne = (schema, itemId) => reader(schema, itemId);
 
-storage.destroy = (schema, itemId) => {
-    return fs.unlinkProm(`${__dirname}/../data/${schema}/${itemId}.json`);
-};
+storage.fetchAll = schema => fs.readdirProm(`${basePath}/${schema}`);
+
+storage.update = (schema, itemId, item) => writer(schema, itemId, item);
+
+storage.destroy = (schema, itemId) => fs.unlinkProm(`${basePath}/${schema}/${itemId}.json`);
