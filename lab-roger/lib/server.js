@@ -17,15 +17,16 @@ app.use('/{0}', (req, res) => errorHandler(new Error('Path error. Route not foun
 
 const server = module.exports = {};
 server.isOn = false;
+server.http = null
 
 server.start = function(port, callback) {
   if(server.isOn) return callback(new Error('Server is runnning cannot start a running server'));
   server.isOn = true;
-  return app.listen(port, callback);
+  server.http = app.listen(port, callback);
 };
 
 server.stop = function(port, callback) {
   if(!server.isON) return callback(new Error('Server not running, cannot stop a stopped server'));
   server.isOn = false;
-  return app.close(callback);
+  server.http.close(callback);
 };
