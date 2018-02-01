@@ -20,8 +20,12 @@ module.exports = router => {
     router.get('/note/:_id', (req, res) => {
         storage.fetchOne('note', req.params._id)
             .then(buffer => buffer.toString())
-            .then(json => JSON.parse(json))
-            .then(note => res.status(200).json(note))
+            .then(json => {
+                return JSON.parse(json);
+            })
+            .then(note => {
+                return res.status(200).json(note);
+            })
             .catch(err => errorHandler(err, res));
     });
 
@@ -32,7 +36,7 @@ module.exports = router => {
             .catch(err => errorHandler(err, res));
     });
 
-    router.put('/note', bodyParser, (req, res) => {
+    router.put('/note/:_id', bodyParser, (req, res) => {
         storage.fetchOne('note', req.params._id)
             .then(buffer => buffer.toString())
             .then(json => JSON.parse(json))
@@ -41,7 +45,9 @@ module.exports = router => {
                 title: req.body.title || note.title,
                 content: req.body.content || note.content,
             }))
-            .then(note => JSON.stringify(note))
+            .then(note => {
+                return JSON.stringify(note);
+            })
             .then(json => storage.update('note', req.params._id, json))
             .then(() => res.sendStatus(204))
             .catch(err => errorHandler(err, res));
@@ -49,7 +55,7 @@ module.exports = router => {
 
     router.delete('/note/:_id', (req, res) => {
         storage.destroy('note', req.params._id)
-            .then(() => res.status(204))
+            .then(() => {res.sendStatus(204);})
             .catch(err => errorHandler(err, res));
     });
 };

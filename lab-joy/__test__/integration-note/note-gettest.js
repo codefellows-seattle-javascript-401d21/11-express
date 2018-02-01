@@ -13,7 +13,10 @@ describe('GET', () => {
     beforeAll(() => {
         return superagent.post(':3000/api/v1/note')
             .send(this.mockNote)
-            .then(res => this.response = res);
+            .then(res => {
+                this.response = res;
+                mockNoteId = this.response.body._id;
+            });
     });
 
     afterAll(() => server.stop());
@@ -31,25 +34,26 @@ describe('GET', () => {
         it('should respond with an array of note IDs', () => {
             expect(typeof this.response.body).toBe('object');
             expect(Array.isArray(this.response.body)).toBeTruthy();
-            mockNoteId = this.response.body[0];
         });
     });
 
     describe('Fetch One: Valid req/res', () => {
         beforeAll(() => {
             return superagent.get(`:3000/api/v1/note/${mockNoteId}`)
-                .then(res => this.response = res);
+                .then(res => {
+                    this.responseOne = res;
+                });
         });
 
         it('should respond with a status of 200', () => {
-            expect(this.response.status).toBe(200);
+            expect(this.responseOne.status).toBe(200);
         });
 
         it('should get a new note with title, content, and _id', () => {
-            expect(this.response.body).toHaveProperty('title');
-            expect(this.response.body).toHaveProperty('content');
-            expect(this.response.body).toHaveProperty('_id');
-            expect(this.response.body.content).toMatch(/hello world/);
+            expect(this.responseOne.body).toHaveProperty('title');
+            expect(this.responseOne.body).toHaveProperty('content');
+            expect(this.responseOne.body).toHaveProperty('_id');
+            expect(this.responseOne.body.content).toMatch(/hello world/);
         });
     });
 

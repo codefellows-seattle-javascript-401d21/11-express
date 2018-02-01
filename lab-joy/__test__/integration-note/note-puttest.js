@@ -21,12 +21,16 @@ describe('PUT', () => {
         it('should respond with a status of 204', () => {
             return superagent.put(`:3000/api/v1/note/${this.response.body._id}`)
                 .send(this.mockNoteUpdated)
-                .then(res => expect(res.status).toBe(204));        
+                .then(res => {
+                    expect(res.status).toBe(204);
+                });        
         });
 
         it('should update the note', () => {
             return superagent.get(`:3000/api/v1/note/${this.response.body._id}`)
-                .then(res => expect(res.body.content).toMatch(/cats/));
+                .then(res => {
+                    expect(res.body.content).toBe('cats');
+                });
         });
     });
 
