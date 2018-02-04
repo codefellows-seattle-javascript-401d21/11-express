@@ -43,17 +43,17 @@ describe('PUT /', () => {
       () => {
         expect(getOne.body.title).toEqual('Update');
         expect(getOne.body.author).toEqual('Updating');
-    });
+      });
 
     test(
       'should respond with http res status 204',
       () => {
         expect(putOne.status).toBe(204);
-    });
+      });
   });
 
   describe('Invalid input', () => {
-    let postTwo, putTwo, getTwo;
+    /*    let postTwo, putTwo, getTwo;
 
     // post an existing book to use it in test
     beforeAll(() => {
@@ -62,13 +62,6 @@ describe('PUT /', () => {
         .then(res => { postTwo = res; });
     });
 
-    // update an existing book to use it in test
-/*    beforeAll(() => {
-      return superagent.put(':8888/api/v1/book/' + postTwo.body._id)
-        .send({ title: 'Update2' })
-        .then(res => { putTwo = res; });
-    });
-*/
     // get an existing book to use it in test
     beforeAll(() => {
       return superagent.get(':8888/api/v1/book/' + postTwo.body._id)
@@ -79,5 +72,5 @@ describe('PUT /', () => {
     afterAll(() => {
       return superagent.del(':8888/api/v1/book');
     });
-  });
+*/  });
 });

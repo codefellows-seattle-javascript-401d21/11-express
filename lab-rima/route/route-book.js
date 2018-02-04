@@ -10,6 +10,7 @@ const debug = require('debug')('http:route-book');
 module.exports = function(router){
 
   router.get('/book/:_id', bodyParser, (req, res) => {
+    debug('route GET');
     storage.fetchOne('book', req.params._id)
       .then(buffer => buffer.toString())
       .then(json => JSON.parse(json))
@@ -18,12 +19,14 @@ module.exports = function(router){
   });
 
   router.get('/book', (req, res) => {
+    debug('route GET');
     storage.fetchAll('book')
       .then(items => res.status(200).json(items))
       .catch(err => errorHandler(err, res));
   });
 
   router.post('/book', bodyParser, (req, res) => {
+    debug('route POST');
     new Book(req.body.title, req.body.author)
       .then(book => storage.create('book', book))
       .then(item => res.status(201).json(item))
@@ -31,18 +34,21 @@ module.exports = function(router){
   });
 
   router.put('/book/:_id', bodyParser, (req, res) => {
+    debug('route PUT');
     storage.update('book', req.params._id, req.body)
       .then(() => res.status(204).end())
       .catch(err => errorHandler(err, res));
   });
 
   router.delete('/book/:_id', bodyParser, (req, res) => {
+    debug('route DELETE one');
     storage.deleteOne('book', req.params._id)
       .then(() => res.status(200).end())
-      .catch(err => {console.log(err.message); errorHandler(err, res)});
+      .catch(err => {console.log(err.message); errorHandler(err, res);});
   });
 
   router.delete('/book', (req, res) => {
+    debug('route DELETE all');
     storage.deleteAll('book')
       .then(() => res.status(200).end())
       .catch(err => errorHandler(err, res));

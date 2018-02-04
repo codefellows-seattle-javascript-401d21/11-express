@@ -2,8 +2,8 @@
 
 module.exports = function(err, res){
   let msg = err.message.toLowerCase();
-console.log('error handler', msg);
-/*  switch(true){
+  /*  console.log(msg);  
+    switch(true){
     case msg.includes('validation error'):
       return res.status(400).send(`${err.name}: ${err.message}`);
       break;
@@ -24,6 +24,7 @@ console.log('error handler', msg);
     return res.status(404).send(`${err.name}: ${err.message}`);
   }
   if(msg.includes('path error')){
+    console.log('here');
     return res.status(404).send(`${err.name}: ${err.message}`);
   }
 
